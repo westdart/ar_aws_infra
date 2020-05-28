@@ -1,0 +1,21 @@
+---
+- debug:
+    msg: "Using the VPC: {{ ar_aws_infra_vpc_id | default(ar_aws_infra_created_vpc) }}"
+
+- set_fact:
+    ar_aws_infra_ec2_filters: {
+      vpc-id: "{{ ar_aws_infra_vpc_id | default(ar_aws_infra_created_vpc) }}"
+    }
+
+- name: Get the ec2 instances
+  ec2_instance_info:
+    filters: "{{ ar_aws_infra_ec2_filters }}"
+  register: instance_info_result
+
+- debug: var=instance_info_result
+
+- name: Set the machine facts
+  set_fact:
+    ar_aws_infra_all_machines: "{{ instance_info_result.instances | ec2_machine_info }}"
+
+- debug: var=ar_aws_infra_all_machines

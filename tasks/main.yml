@@ -1,0 +1,4 @@
+---
+- include_tasks: genterra-main.yml
+- include_tasks: build-infra.yml
+- include_tasks: get-inventory.yml

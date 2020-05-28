@@ -1,0 +1,13 @@
+---
+ar_aws_infra_dest_dir: null
+ar_aws_infra_key_path: null
+ar_aws_infra_name: null
+ar_aws_infra_description: null
+ar_aws_infra_domain: null
+ar_aws_infra_region: null
+
+ar_aws_infra_envs: []
+
+# If ar_aws_infra_create_cloud is false provide the following
+ar_aws_infra_existing_security_groups: null
+ar_aws_infra_instance_profile_id: null

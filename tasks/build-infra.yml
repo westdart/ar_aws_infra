@@ -1,0 +1,53 @@
+---
+- debug:
+    msg: "Entering build-infra.yml"
+
+- name: "Create global ssh key pair"
+  openssh_keypair:
+    path: "{{ ar_aws_infra_key_path }}"
+    size: 2048
+
+- terraform:
+    project_path: "{{ ar_aws_infra_dest_dir }}"
+    state: "present"
+    force_init: true
+  register: tf_out
+
+- name: Output terraform outputs to a file
+  copy:
+    dest: "{{ ar_aws_infra_dest_dir }}/tf_out.json"
+    content: "{{ tf_out }}"
+  when: tf_out.failed
+
+- name: Debug terraform out
+  debug: var=tf_out verbosity=2
+
+- name: Terraform stderr
+  debug:
+    msg: "{{ tf_out.stderr }}"
+  when: tf_out.failed
+
+- name: Obtain terraform output names
+  shell: terraform output | grep "^[a-zA-Z0-9].*=" | awk -F "=" '{print $1}' | sed -e 's/[[:space:]]*$//'
+  args:
+    chdir: '{{ ar_aws_infra_dest_dir }}'
+  register: terraform_out
+  changed_when: false
+
+- set_fact:
+    ar_aws_infra_terraform_output_vars: "{{ terraform_out.stdout.split('\n') }}"
+
+- name: Obtain terraform output json
+  shell: terraform output -json
+  args:
+    chdir: '{{ ar_aws_infra_dest_dir }}'
+  register: terraform_json_cmd
+  changed_when: false
+
+- set_fact:
+    ar_aws_infra_machines: "{{ terraform_json_cmd.stdout | string | machine_info }}"
+
+- set_fact:
+    ar_aws_infra_created_vpc: "{{ terraform_json_cmd.stdout | from_json | json_query('[vpc_id][0].value') }}"
+
+- debug: var=ar_aws_infra_machines verbosity=1

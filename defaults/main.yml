@@ -1,0 +1,42 @@
+---
+ar_aws_infra_terraform_modules_dir: "{{ role_path }}/files/terraform"
+
+ar_aws_infra_terraform_template: aws-infra-main.tf.j2
+ar_aws_infra_terraform_variables: aws-infra-variables.tf.j2
+ar_aws_infra_terraform_varagrs: terraform.tfvars.j2
+ar_aws_infra_terraform_outputs: aws-infra-outputs.tf.j2
+
+ar_aws_infra_create_cloud: true
+
+ar_aws_infra_use_aws_dns: false
+
+ar_aws_infra_cloud_cidr: "10.0.0.0/16"
+
+ar_aws_infra_ami_images: [
+  { name: 'rhel_7_7', filter: 'RHEL-7.7*', account: '309956199498' },
+  { name: 'centos_7', filter: 'CentOS7*', account: '679593333241' }
+]
+
+ar_aws_infra_root_block_device: {
+  size: "10",
+  type: "gp2"
+}
+
+ar_aws_infra_machine_types: {
+  default_node: {
+    type: "t2.micro",
+    block_devices: [],
+    image: 'rhel_7_7',
+    external_ip: false
+  }
+}
+
+ar_aws_infra_network_rules: [
+  { name: 'internal_traffic', description: 'Open network within env', ingres_rules: [{}], egres_rules: [{}] },
+  { name: 'ssh_traffic', description: 'Allow ssh traffic to/from env',
+    ingres_rules: [{to_port: '22',  cidr_blocks: ["0.0.0.0/0"], protocol: 'tcp'}], egres_rules: [] }
+]
+
+ar_aws_infra_security_groups: [
+  { env: "{{ ar_aws_infra_name }}", name: "{{ ar_aws_infra_name }}_security_group", description: "Network rules for {{ ar_aws_infra_name }} env", network_rule_refs: ['internal_traffic','ssh_traffic'] }
+]

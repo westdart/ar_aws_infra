@@ -1,0 +1,28 @@
+---
+- debug:
+    msg: "Entering genterra-main.yml"
+
+- name: "Ensure dir exists: {{ ar_aws_infra_dest_dir }}"
+  file:
+    path: "{{ ar_aws_infra_dest_dir }}"
+    state: directory
+
+- name: "Generate the terraform main script"
+  template:
+    src:  "{{ ar_aws_infra_terraform_template }}"
+    dest: "{{ ar_aws_infra_dest_dir }}/main.tf"
+
+- name: "Generate the terraform variables definition"
+  template:
+    src:  "{{ ar_aws_infra_terraform_variables }}"
+    dest: "{{ ar_aws_infra_dest_dir }}/variables.tf"
+
+- name: "Generate the terraform outputs definition"
+  template:
+    src:  "{{ ar_aws_infra_terraform_outputs }}"
+    dest: "{{ ar_aws_infra_dest_dir }}/outputs.tf"
+
+- name: "Generate the terraform variables"
+  template:
+    src:  "{{ ar_aws_infra_terraform_varagrs }}"
+    dest: "{{ ar_aws_infra_dest_dir }}/terraform.tfvars"
