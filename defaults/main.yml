@@ -1,10 +1,10 @@
 ---
 ar_aws_infra_terraform_modules_dir: "{{ role_path }}/files/terraform"
 
-ar_aws_infra_terraform_template: aws-infra-main.tf.j2
+ar_aws_infra_terraform_template: aws-infra-main-flattened.tf.j2
 ar_aws_infra_terraform_variables: aws-infra-variables.tf.j2
 ar_aws_infra_terraform_varagrs: terraform.tfvars.j2
-ar_aws_infra_terraform_outputs: aws-infra-outputs.tf.j2
+ar_aws_infra_terraform_outputs: aws-infra-outputs-flattened.tf.j2
 
 ar_aws_infra_create_cloud: true
 
@@ -14,7 +14,8 @@ ar_aws_infra_cloud_cidr: "10.0.0.0/16"
 
 ar_aws_infra_ami_images: [
   { name: 'rhel_7_7', filter: 'RHEL-7.7*', account: '309956199498' },
-  { name: 'centos_7', filter: 'CentOS7*', account: '679593333241' }
+  { name: 'rhel_8_2', filter: 'RHEL-8.2*', account: '309956199498' },
+  { name: 'centos_7', filter: 'CentOS7*',  account: '679593333241' }
 ]
 
 ar_aws_infra_root_block_device: {

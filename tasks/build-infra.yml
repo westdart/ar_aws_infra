@@ -37,17 +37,5 @@
 - set_fact:
     ar_aws_infra_terraform_output_vars: "{{ terraform_out.stdout.split('\n') }}"
 
-- name: Obtain terraform output json
-  shell: terraform output -json
-  args:
-    chdir: '{{ ar_aws_infra_dest_dir }}'
-  register: terraform_json_cmd
-  changed_when: false
-
-- set_fact:
-    ar_aws_infra_machines: "{{ terraform_json_cmd.stdout | string | machine_info }}"
-
-- set_fact:
-    ar_aws_infra_created_vpc: "{{ terraform_json_cmd.stdout | from_json | json_query('[vpc_id][0].value') }}"
-
-- debug: var=ar_aws_infra_machines verbosity=1
+- name: Get terraform output
+  include_tasks: getterra-output.yml

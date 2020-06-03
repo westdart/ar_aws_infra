@@ -1,4 +1,7 @@
 ---
+- name: Get terraform output
+  include_tasks: getterra-output.yml
+
 - debug:
     msg: "Using the VPC: {{ ar_aws_infra_vpc_id | default(ar_aws_infra_created_vpc) }}"
 

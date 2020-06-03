@@ -1,4 +1,4 @@
-# aws_infra
+# ar_aws_infra
 
 Create AWS infrastructure
 
@@ -79,7 +79,7 @@ The following variables should be provided through an encrypted source:
   tasks:
     - name: Generate AWS Infra
       include_role:
-        name: aws_infra
+        name: ar_aws_infra
       vars:
         ar_aws_infra_dest_dir:                 "{{ dest_dir }}"
         ar_aws_infra_key_path:                 "{{ key_path }}"
