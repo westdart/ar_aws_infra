@@ -11,3 +11,6 @@ ar_aws_infra_envs: []
 # If ar_aws_infra_create_cloud is false provide the following
 ar_aws_infra_existing_security_groups: null
 ar_aws_infra_instance_profile_id: null
+
+ar_aws_infra_subnets: []
+ar_aws_infra_security_groups: []

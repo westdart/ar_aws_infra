@@ -2,6 +2,16 @@
 
 Create AWS infrastructure
 
+This works by generating terraform scripts that are then executed to
+deliver the infrastructure. The terraform scripts are jinja2 templates
+and therefore the specific templates used dictate to a large degree the
+architecture of the infrastructure.
+
+Currently only a 'lab' architecture is provided, which enables in a 
+single cloud environment the construction of multiple segregated lab
+environments. These templates can also be used for small construction
+of infrastructure alongside an existing cloud environment.
+
 ## Requirements
 - awscli and related python modules
 
@@ -57,10 +67,10 @@ This structure references another structure of Machine Types:
 |                                    | 'ar_aws_infra_vpc_id' and 'ar_aws_infra_instance_profile_id' must be provided                      |                                                                   |
 | ar_aws_infra_use_aws_dns           |                                                                                                    | false                                                             |
 | ar_aws_infra_terraform_modules_dir | Where Terraform modules can be found                                                               | {{ role_path }}/files/terraform                                   |
-| ar_aws_infra_terraform_template    | Which Terraform template to use                                                                    | aws-infra-main.tf.j2                                              |
-| ar_aws_infra_terraform_variables   | Which template to use to provide Terraform vars                                                    | aws-infra-variables.tf.j2                                         |
+| ar_aws_infra_terraform_template    | Which Terraform template to use                                                                    | lab-main.tf.j2                                              |
+| ar_aws_infra_terraform_variables   | Which template to use to provide Terraform vars                                                    | lab-variables.tf.j2                                         |
 | ar_aws_infra_terraform_varagrs     | What args to pass terraform through 'terraform.tfvars'                                             | terraform.tfvars.j2                                               |
-| ar_aws_infra_terraform_outputs     | deprecated                                                                                         | aws-infra-outputs.tf.j2                                           |
+| ar_aws_infra_terraform_outputs     | deprecated                                                                                         | lab-outputs.tf.j2                                           |
 | ar_aws_infra_cloud_cidr            | The cloud CIDR (only required if ar_aws_infra_create_cloud = true)                                 | 10.0.0.0/16                                                       |
 | ar_aws_infra_ami_images            | Search details for AMI images                                                                      | Array including RHEL 7.7 and Centos 7 images                      |
 | ar_aws_infra_root_block_device     | The block device to add to all machines to hold OS etc                                             | {size: "10", type: "gp2"}                                         |

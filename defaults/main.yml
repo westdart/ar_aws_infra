@@ -1,10 +1,10 @@
 ---
 ar_aws_infra_terraform_modules_dir: "{{ role_path }}/files/terraform"
 
-ar_aws_infra_terraform_template: aws-infra-main-flattened.tf.j2
-ar_aws_infra_terraform_variables: aws-infra-variables.tf.j2
+ar_aws_infra_terraform_template: lab-main-flattened.tf.j2
+ar_aws_infra_terraform_variables: lab-variables.tf.j2
 ar_aws_infra_terraform_varagrs: terraform.tfvars.j2
-ar_aws_infra_terraform_outputs: aws-infra-outputs-flattened.tf.j2
+ar_aws_infra_terraform_outputs: lab-outputs-flattened.tf.j2
 
 ar_aws_infra_create_cloud: true
 

@@ -1,0 +1,24 @@
+# {{ ansible_managed }}
+{% if ar_aws_infra_create_cloud %}
+output "vpc" {
+  value = module.aws-cloud2.vpc
+}
+output "vpc_id" {
+  value = module.aws-cloud2.vpc-id
+}
+{% endif %}
+{% for env in ar_aws_infra_envs %}
+{% for node_group in env['node_groups'] %}
+{% for machine_index in range(node_group['count'] | default('1')) %}
+{% set machine_num = machine_index + 1 %}
+{% if node_group['count'] == 1 %}
+{%   set host_name = env['prefix'] + '-' + node_group['name'] + '.' + ar_aws_infra_domain %}
+{% else %}
+{%   set host_name = env['prefix'] + '-' + node_group['name'] + machine_num | string + '.' + ar_aws_infra_domain %}
+{% endif %}
+output "machine_{{ host_name | replace('.', '_') }}" {
+  value = aws_instance.{{ env['prefix'] }}_{{ node_group['name'] }}_instance_{{ machine_num }}
+}
+{% endfor %}
+{% endfor %}
+{% endfor %}

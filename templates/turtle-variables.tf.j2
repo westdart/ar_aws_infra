@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+variable "region" {
+  description = "Region to deploy the cloud into"
+  default = "{{ ar_aws_infra_region }}"
+}
+
+variable "ssh-public-key-file" {
+  description="Default SSH public key file."
+  default="~/.ssh/id_rsa.pub"
+}
